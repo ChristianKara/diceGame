@@ -16,6 +16,18 @@ scores = [0,0];
 roundScore = 0;
 activePlayer = 0;
 
+function nextPlayer() {
+  var diceDOM = document.querySelector('.dice');
+  //next player
+  roundScore = 0;
+  document.querySelector('#current-' + activePlayer).textContent = roundScore;
+  activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+  document.querySelector('.player-0-panel').classList.toggle('active');
+  document.querySelector('.player-1-panel').classList.toggle('active');
+  diceDOM.style.display = 'none';
+}
+
+
 document.querySelector('.dice').style.display = 'none';
 
 document.getElementById('score-0').textContent = 0;
@@ -38,11 +50,32 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     document.querySelector('#current-' + activePlayer).textContent = roundScore;
   } else {
     //next player
-    roundScore = 0;
-    document.querySelector('#current-' + activePlayer).textContent = roundScore;
-    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-    document.querySelector('.player-0-panel').classList.toggle('active');
-    document.querySelector('.player-1-panel').classList.toggle('active');
-    diceDOM.style.display = 'none';
+    nextPlayer();
   }
+});
+
+//Hold button pressed
+document.querySelector('.btn-hold').addEventListener('click', function(){
+  var playerScoreDOM = document.getElementById('score-'+activePlayer);
+  //add current score to global score
+  scores[activePlayer] += roundScore;
+  playerScoreDOM.textContent = scores[activePlayer];
+
+
+  //update UI
+  document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+  //check if a player won the game
+
+  if(scores[activePlayer] >= 20){
+    //game over player wins
+    document.querySelector('#name-'+ activePlayer).textContent="Winner!!";
+    document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner');
+        document.querySelector('.player-'+activePlayer+'-panel').classList.remove('active');
+  } else {
+    //next player
+    nextPlayer();
+  }
+
+  //New Game
 });
