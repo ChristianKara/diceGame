@@ -12,9 +12,7 @@ GAME RULES:
 
 var scores, roundScore, activePlayer;
 
-scores = [0,0];
-roundScore = 0;
-activePlayer = 0;
+init();
 
 function nextPlayer() {
   var diceDOM = document.querySelector('.dice');
@@ -27,13 +25,6 @@ function nextPlayer() {
   diceDOM.style.display = 'none';
 }
 
-
-document.querySelector('.dice').style.display = 'none';
-
-document.getElementById('score-0').textContent = 0;
-document.getElementById('score-1').textContent = 0;
-document.getElementById('current-0').textContent = 0;
-document.getElementById('current-1').textContent = 0;
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
   var diceDOM = document.querySelector('.dice');
@@ -76,6 +67,31 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     //next player
     nextPlayer();
   }
-
-  //New Game
 });
+
+//New Game button
+document.querySelector('.btn-new').addEventListener('click', init);
+
+function init() {
+  scores = [0,0];
+  roundScore = 0;
+  activePlayer = 0;
+
+  document.querySelector('.dice').style.display = 'none';
+
+  for(var i=0;i<2;i++){
+
+    document.getElementById('score-'+ i).textContent = 0;
+    document.getElementById('current-' + i).textContent = 0;
+    document.getElementById('name-'+ i).textContent="Player " + (i+1);
+    document.querySelector('.player-'+ i + '-panel').classList.remove('winner');
+    document.querySelector('.player-'+ i +'-panel').classList.remove('active');
+
+  }
+
+  document.querySelector('.player-0-panel').classList.add('active');
+
+  // document.getElementById('score-1').textContent = 0;
+  // document.getElementById('current-1').textContent = 0;
+  // document.querySelector('#name-1').textContent="Player 2";
+}
